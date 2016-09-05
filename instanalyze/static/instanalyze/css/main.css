@@ -1,0 +1,84 @@
+table.uid {
+	border-style : inset;
+	border-radius: 25px;
+	border-collapse: collapse;
+	position : relative;
+	top : 480px;
+	margin : 0 auto;
+}
+td.user {
+	border: 1px solid black;
+	border-style: dotted;
+	border-collapse: collapse;
+}
+td.chart {
+	text-align: center;
+	border-spacing: 200px;
+}
+section {
+  width: 40em;
+  height: 25em;
+  margin: 0 auto;
+  position: relative;
+}
+
+li {
+  width: 323px;
+  background: #fff;
+  display: inline-block;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  overflow: hidden;
+}
+
+li p {
+  color: white;
+  font-weight: bold;
+  font-size: 5em;
+  text-align: center;
+  margin-top: 1.175em;
+}
+
+.items {
+  position: absolute;
+}
+
+.main-pos {
+  margin-left: 2em !important;
+  z-index: 3000;
+  /*background-image: url('http://dl.dropbox.com/u/32649907/imgs/shadow.png');*/
+}
+
+.left-pos {
+  opacity: .3;
+  margin-left: -17em !important;
+  z-index: 1000;
+  -webkit-transform: scale(.75);
+  -moz-transform: scale(.75);
+  transform: scale(.75);
+}
+
+.back-pos {
+  margin-left: 2em !important;
+  opacity: .05;
+  -webkit-transform: scale(.5);
+  -moz-transform: scale(.5);
+  transform: scale(.5);
+}
+
+.right-pos {
+  opacity: .3;
+  margin-left:  21em !important;
+  z-index: 1000;
+  -webkit-transform: scale(.75);
+  -moz-transform: scale(.75);
+  transform: scale(.75);
+}
+
+span {
+  position: absolute;
+  margin: 50 auto;
+  left: 17em;
+  bottom: 50em;
+}

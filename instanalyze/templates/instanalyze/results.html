@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+ 
+<html lang="en">
+<head>
+{% load staticfiles %}
+  {% load instanalyze_tags %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ankit Mathur - Instanalyze</title>
+
+<link rel="stylesheet" href="{% static 'instanalyze/css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/css/rest.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/icons2/style.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/css/strip.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/css/tipped.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/css/fixed-nav.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/css/loader.css' %}">
+<link rel="stylesheet" href="{% static 'instanalyze/css/main.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+ 
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+ 
+ 
+<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body>
+ 
+<div id="loader-wrapper">
+<div class="spinner">
+<div class="bounce1"></div>
+<div class="bounce2"></div>
+<div class="bounce3"></div>
+</div>
+</div>
+<div id="wrapper">
+<header id="header">
+<nav class="header">
+<div class="container">
+<div class="row">
+<p id="logo"></p>
+<ul class="main-nav">
+<li><a href="http://www.github.com/ankmathur96">source</a></li>
+</ul>
+<div class="menu-button"></div>
+</div>
+</div> 
+<section id="content">
+ 
+<div class="container">
+<div class="row text-center col-sm-8 col-sm-offset-2">
+</h1>
+<h2> Ankit Mathur - Instanalyze </h2>
+<p>Analyze the sentiment of Instagram Posts</p>
+<a href="{% url 'instanalyze:authenticate' %}?state=BEGIN">Authorize Instagram</a>
+</div>
+</div>
+</section>
+</header> 
+<article id="about">
+<div class="container">
+<div class="row">
+<div class="col-sm-6">
+<div class="desc">
+<h1 data-scroll-reveal="enter from left and move 100px over 700ms">Top Posts for #CapitalOne</h1>
+</div>
+<style>
+      body{
+        padding: 0;
+        margin: 0;
+      }
+      #canvas-holder{
+        width:30%;
+      }
+    </style>
+    <link rel="stylesheet" href="{% static 'instanalyze/css/main.css' %}">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+  </head>
+  <body>
+  <center></center><h1> Visualizations </h1></center>
+    <div id="canvas-holder">
+    <table>
+      <tr>
+        <td><canvas id="positivity-chart-area" width="200" height="200" style=""/></td>
+        <td><canvas id="positive-chart-area" width="200" height="200"  style=""/></td>
+      </tr>
+      <tr>
+        <td><p> Sentiment Breakdown of Posts: </p> </td>
+        <td><p> Magnitude of Sentiment: </p> </td>
+      </tr>
+      <tr>
+        <td><canvas id="sentiment-over-time" width="200" height="200" style="position: relative; left: 50%"/></td>
+      </tr>
+      <tr>
+        <td><p style="position: relative; left: 50%"> Historically tracked #CapitalOne Sentiment </p></td>
+      </tr>
+    </table>
+    </div>
+    <script>
+
+    var doughnutData1 = [
+        { 
+          value: {{ negative }},
+          color:"#F7464A",
+          highlight: "#E60000",
+          label: "Negative Posts"
+        },
+        {
+          value: {{ positive }},
+          color: "#47DA47",
+          highlight: "#39AE39",
+          label: "Positive Posts"
+        },
+        {
+          value: {{neutral}},
+          color: "#B8B8B8",
+          highlight: "#6E6E6E",
+          label: "Neutral Posts"
+        }
+      ];
+      var doughnutData2 = [
+        { 
+          value: {{negativity}},
+          color:"#F7464A",
+          highlight: "#E60000",
+          label: "Negativity"
+        },
+        {
+          value: {{positivity}},
+          color: "#47DA47",
+          highlight: "#39AE39",
+          label: "Positivity"
+        }
+      ];
+    var lineChartData = {
+      labels : ["January","February","March","April","May","June","July", "August", "September", "October", "November", "December"],
+      datasets : [
+        {
+          label: "Sentiment Over Time",
+          fillColor : "rgba(151,187,205,0.2)",
+          strokeColor : "rgba(151,187,205,1)",
+          pointColor : "rgba(151,187,205,1)",
+          pointStrokeColor : "#fff",
+          pointHighlightFill : "#fff",
+          pointHighlightStroke : "rgba(151,187,205,1)",
+            data : {{monthwise_positive|stringformat:'r'}}
+        }
+      ]
+
+    }
+  window.onload = function(){
+        var ctx1 = document.getElementById("positive-chart-area").getContext("2d");
+        window.myDoughnut = new Chart(ctx1).Doughnut(doughnutData1, {responsive : false});
+        var ctx2 = document.getElementById("positivity-chart-area").getContext("2d");
+        window.myDoughnut = new Chart(ctx2).Doughnut(doughnutData2, {responsive : false});
+        var ctx3 = document.getElementById("sentiment-over-time").getContext("2d");
+        window.myLine = new Chart(ctx3).Line(lineChartData, {
+          responsive: false});
+
+      };
+  </script>
+<h1> Posts with Likes and Comments </h1>
+<section>
+  <ul class="carousel">
+    <li class="items main-pos" id="1">
+      {% autoescape off %} {{ top_posts.0.embed }} {% endautoescape %}
+      {% if top_posts.0.sentiment > 0 %}
+        <i class="fa fa-arrow-up fa-4x" style="color: green; position: relative; left: 130px"></i>
+      {% else %}
+        <i class="fa fa-arrow-down fa-4x" style="color: red; position: relative; left: 130px"></i>
+      {% endif %}
+    </li>
+    <li class="items right-pos" id="2">
+      {% autoescape off %} {{ top_posts.1.embed }} {% endautoescape %}
+      {% if top_posts.1.sentiment > 0 %}
+        <i class="fa fa-arrow-up fa-4x" style="color: green; position: relative; left: 130px"></i>
+      {% else %}
+        <i class="fa fa-arrow-down fa-4x" style="color: red; position: relative; left: 130px"></i>
+      {% endif %}
+    </li>
+    {% for p in top_posts|slice:"2" %}
+    <li class="items back-pos" id="{{forloop.counter|plustwo}}">
+      {% autoescape off %} {{ p.embed }} {% endautoescape %}
+      {% if p.sentiment > 0 %}
+        <i class="fa fa-arrow-up fa-4x" style="color: green; position: relative; left: 130px"></i>
+      {% else %}
+        <i class="fa fa-arrow-down fa-4x" style="color: red; position: relative; left: 130px"></i>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+  <input type="button" value="Prev" id="prev">
+  <input type="button" value="Next" id="next">
+<script>
+  //slideshow style interval
+var autoSwap = setInterval( swap,3500);
+
+//pause slideshow and reinstantiate on mouseout
+$('ul, span').hover(
+  function () {
+    clearInterval(autoSwap);
+}, 
+  function () {
+   autoSwap = setInterval( swap,3500);
+});
+
+//global variables
+var items = [];
+var startItem = 1;
+var position = 0;
+var itemCount = $('.carousel li.items').length;
+var leftpos = itemCount;
+var resetCount = itemCount;
+
+//unused: gather text inside items class
+$('li.items').each(function(index) {
+    items[index] = $(this).text();
+});
+
+//swap images function
+function swap(action) {
+  var direction = action;
+  
+  //moving carousel backwards
+  if(direction == 'counter-clockwise') {
+    var leftitem = $('.left-pos').attr('id') - 1;
+    if(leftitem == 0) {
+      leftitem = itemCount;
+    }
+    
+    $('.right-pos').removeClass('right-pos').addClass('back-pos');
+    $('.main-pos').removeClass('main-pos').addClass('right-pos');
+    $('.left-pos').removeClass('left-pos').addClass('main-pos');
+    $('#'+leftitem+'').removeClass('back-pos').addClass('left-pos');
+    
+    startItem--;
+    if(startItem < 1) {
+      startItem = itemCount;
+    }
+  }
+  
+  //moving carousel forward
+  if(direction == 'clockwise' || direction == '' || direction == null ) {
+    function pos(positionvalue) {
+      if(positionvalue != 'leftposition') {
+        //increment image list id
+        position++;
+        
+        //if final result is greater than image count, reset position.
+        if((startItem+position) > resetCount) {
+          position = 1-startItem;
+        }
+      }
+    
+      //setting the left positioned item
+      if(positionvalue == 'leftposition') {
+        //left positioned image should always be one left than main positioned image.
+        position = startItem - 1;
+      
+        //reset last image in list to left position if first image is in main position
+        if(position < 1) {
+          position = itemCount;
+        }
+      }
+   
+      return position;
+    }  
+  
+   $('#'+ startItem +'').removeClass('main-pos').addClass('left-pos');
+   $('#'+ (startItem+pos()) +'').removeClass('right-pos').addClass('main-pos');
+   $('#'+ (startItem+pos()) +'').removeClass('back-pos').addClass('right-pos');
+   $('#'+ pos('leftposition') +'').removeClass('left-pos').addClass('back-pos');
+
+    startItem++;
+    position=0;
+    if(startItem > itemCount) {
+      startItem = 1;
+    }
+  }
+}
+
+//next button click function
+$('#next').click(function() {
+  swap('clockwise');
+});
+
+//prev button click function
+$('#prev').click(function() {
+  swap('counter-clockwise');
+});
+
+//if any visible items are clicked
+$('li').click(function() {
+  if($(this).attr('class') == 'items left-pos') {
+     swap('counter-clockwise'); 
+  }
+  else {
+    swap('clockwise'); 
+  }
+});
+</script>
+<table class="uid">
+{% for p in top_posts %}
+  <tr>
+    <td class="user">
+      <p>User ID: {{p.user_data.username}}</p>
+    </td>
+    <td class="user">
+      <p>Follows: {{p.user_data.counts.follows}}</p>
+    </td>
+    <td class="user">
+      <p>Followed By: {{p.user_data.counts.followed_by}}</p>
+    </td>
+  </tr>
+{% endfor %}
+</table>
+</div>
+</div>
+</div>
+</article> 
+</div>
+ 
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script src="{% static 'instanalyze/js/classie.js' %}"></script>
+ 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="{% static 'instanalyze/js/strip.pkgd.min.js' %}"></script>
+ 
+<script src="{% static 'instanalyze/js/prefix.js' %}"></script>
+<script src="{% static 'instanalyze/js/tipped.js' %}"></script>
+<script src="{% static 'instanalyze/js/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'instanalyze/js/jquery.flexnav.min.js' %}"></script>
+<script src="{% static 'instanalyze/js/scrollReveal.js' %}"></script>
+<script src="{% static 'instanalyze/js/custom.js' %}"></script>
+</body>
+</html>
